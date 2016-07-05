@@ -55,7 +55,7 @@
     //newService = function (serviceRoute, parameterObj, enableCache, authenticatedOnly)
     
     //#region LogViewerService
-    corpServices.factory('LogViewerPlusService', newService(serviceRootPath + 'LogViewerPlusSearch/:id', { id: '@id' }, true, false));
+    corpServices.factory('LogViewerPlusService', newService(serviceRootPath + 'LogViewerPlusSearch/:id', { id: '@id' }, false, false));
     //#endregion
 
     //#endregion

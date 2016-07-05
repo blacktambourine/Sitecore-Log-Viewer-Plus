@@ -316,14 +316,14 @@ namespace BlackTambourine.LogViewerPlus.Controllers
         private DateTime ParseLogEntryDateTime(IReadOnlyList<string> cols)
         {
             DateTime entryDate;
-            var entryDateOk = DateTime.TryParse(_selectedLogDate + " " + cols[1], out entryDate);
+            var entryDateOk = DateTime.TryParse(cols[1], out entryDate);
             if (entryDateOk)
             {
                 _entryDateTimeCounter = entryDate;
             }
             else
             {
-                entryDateOk = DateTime.TryParse(_selectedLogDate + " " + cols[2], out entryDate);
+                entryDateOk = DateTime.TryParse(cols[2], out entryDate);
                 if (entryDateOk)
                 {
                     _entryDateTimeCounter = entryDate;
