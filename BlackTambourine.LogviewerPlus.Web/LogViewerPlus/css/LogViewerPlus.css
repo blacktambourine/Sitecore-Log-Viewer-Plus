@@ -1,0 +1,59 @@
+﻿.entry-info 
+{
+    background-color: #5bc0de;
+}
+
+.entry-error 
+{
+    background-color: #d9534f;
+    color: white;
+}
+
+.entry-warn 
+{
+    background-color: #f0ad4e;
+}
+
+.entry-stacktrace 
+{
+    background-color: white;
+    color: #d9534f;
+}
+
+.entry-none 
+{
+    background-color: white;
+}
+
+.field-error {
+     color: red;
+}
+
+.logfilters {
+    margin-bottom: 1em;
+}
+
+.results-count-label 
+{
+    margin-bottom: 2em;
+}
+
+.filter-datepicker {
+    padding-top: 2.45em;
+    width: 150px;
+    float: left;
+    margin-right: 3.5em;
+}
+
+.filter-timepicker {
+    width: 110px;
+    float: left;
+    margin-right: 3.5em;  
+}
+
+.filter-logfiletype {
+    float: left;
+    width: 140px;
+    margin-right: 3.5em;  
+    margin-top: 2.75em;
+}

@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="corpApp">
+<head>
+    <title>Sitecore Log Viewer Plus</title>
+    <meta charset="utf-8"/>
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-touch.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-sanitize.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-resource.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.css" rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/LogViewerPlus/css/LogViewerPlus.css" rel="stylesheet"/>
+
+    <script src="/LogViewerPlus/js/app.js"></script>
+    <script src="/LogViewerPlus/js/filters.js"></script>
+    <script src="/LogViewerPlus/js/js_common.js"></script>
+    <script src="/LogViewerPlus/js/js_dates.js"></script>
+    <script src="/LogViewerPlus/js/base_module.js"></script>
+    <script src="/LogViewerPlus/js/corp_services.js"></script>
+    <script src="/LogViewerPlus/js/logViewerPlusModule.js"></script>
+</head>
+<body>
+
+    <div data-ng-controller="LogViewerPlusCtrl" data-ng-init="init();" data-ng-cloak>
+       
+        <div class="col-xs-12" data-ng-form name="filterForm">
+            
+            <div data-ng-messages="pageErrors">
+                <div data-ng-messages-include="/LogViewerPlus/ValidationMessages.html"></div>
+            </div>
+
+            <div class="col-xs-12">
+
+                <select name="logFileType" id="logFileType" data-ng-model="filters.logFileType" uib-tooltip="Log Type" tooltip-placement="top" class="filter-logfiletype">
+                    <option value="log.">Main Log</option>
+                    <option value="Search.log.">Search Log</option>
+                    <option value="Publishing.log.">Publishing Log</option>
+                    <option value="Crawling.log.">Crawling Log</option>
+                    <option value="Client.log.">Client Log</option>
+                    <option value="Fxm.log.">FXM Log</option>
+                    <option value="WebDAV.log.">WebDAV Log</option>
+                    <option value="log.ucommerce.">uCommerce Log</option>
+                </select>
+
+                <div class="filter-datepicker">
+                    <p class="input-group">
+                        <input type="text" class="form-control" name="FromDate"
+                               uib-tooltip="Log Day" tooltip-placement="top"
+                               uib-datepicker-popup="yyyy/MM/dd" data-ng-model="filters.dt" readonly="true" is-open="datepicker.opened" close-text="Close"
+                               data-ng-required="true"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" data-ng-click="openDatepicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+
+                <div class="filter-timepicker">
+                    <uib-timepicker data-ng-model="filters.fromTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" uib-tooltip="From Time" tooltip-placement="right"></uib-timepicker>
+                </div>
+
+                <div class="filter-timepicker">
+                    <uib-timepicker data-ng-model="filters.toTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" uib-tooltip="To Time" tooltip-placement="right"></uib-timepicker>
+                </div>
+
+            </div>
+            
+            <div class="btn-group logfilters col-xs-12">
+                <label class="btn btn-info" data-ng-model="checkStatusModel.Info" uib-btn-checkbox>INFO</label>
+                <label class="btn btn-warning" data-ng-model="checkStatusModel.Warn" uib-btn-checkbox>WARN</label>
+                <label class="btn btn-danger" data-ng-model="checkStatusModel.Error" uib-btn-checkbox>ERROR</label>
+            </div>
+
+            <div class="btn-group logfilters col-xs-12" uib-tooltip="Category" tooltip-placement="top">
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Analytics" uib-btn-checkbox>Analytics</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Audit" uib-btn-checkbox>Audit</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Cache" uib-btn-checkbox>Cache</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Dianoga" uib-btn-checkbox>Dianoga</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Dll" uib-btn-checkbox>DLL</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Heartbeat" uib-btn-checkbox>Heartbeat</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Indexing" uib-btn-checkbox>Indexing</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.SitecoreInstanceInfo" uib-btn-checkbox>Instance Info</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.ManagedPoolThread" uib-btn-checkbox>Managed Pool Thread</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.MediaRequestProtect" uib-btn-checkbox>Media Request</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.PathAnalyzer" uib-btn-checkbox>Path Analyzer</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Scheduler" uib-btn-checkbox>Scheduler</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.TdsPackageDeployer" uib-btn-checkbox>TDS</label>
+                <label class="btn btn-primary" data-ng-model="checkCategoryModel.Miscellaneous" uib-btn-checkbox>Miscellaneous</label>
+            </div>
+
+            <div class="btn-group logfilters col-xs-12">
+                <label class="btn btn-default" data-ng-click="populatePageData()">Submit</label>
+                <label class="btn btn-default" data-ng-click="clearFilters()">Clear</label>
+            </div>
+
+        </div>
+        
+        <div class="col-xs-12">
+
+            <div data-ng-show="data.Logs.length >= 0 && hasSubmitted" class="col-xs-12">
+                <p data-ng-cloak class="results-count-label">Your search returned <em>{{data.Logs.length}}</em> rows.</p>
+            </div>
+            
+            <div data-ng-repeat="item in data.Logs" class="col-xs-12" data-ng-class="(item.S  == 1) ? 'entry-warn' : ((item.S == 2) ? 'entry-error' : ((item.S == 0) ? 'entry-info' : 'entry-none'))">
+                <div class="col-xs-12">
+                    <div class="col-xs-1">
+                        <span data-ng-hide="(item.S == 3) ? 1 : 0">{{item.C | toLogEntryCategory}}</span>
+                    </div>
+
+                    <div class="col-xs-2">
+                        <span data-ng-hide="(item.S == 3) ? 1 : 0">{{item.E | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                    </div>
+
+                    <div class="col-xs-1">
+                        <span data-ng-hide="(item.S == 3) ? 1 : 0">{{item.S | toLogEntryStatus}}</span>
+                    </div>
+
+                    <div class="col-xs-8" >
+                        <span data-ng-class="(item.S == 3) ? 'entry-stacktrace' : ''">{{item.T}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
