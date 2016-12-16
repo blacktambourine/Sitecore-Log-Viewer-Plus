@@ -9,7 +9,7 @@ namespace BlackTambourine.LogViewerPlus.StartupHandler
         public void Process(PipelineArgs args)
         {
             //add any additional routes e.g.
-            GlobalConfiguration.Configuration.Routes.Add("LogViewerPlus", new HttpRoute("api/LogViewerPlus/{controller}/{id}/", new HttpRouteValueDictionary(new { id = RouteParameter.Optional })));
+            GlobalConfiguration.Configuration.Routes.Add("LogViewerPlus", new HttpRoute("api/LogViewerPlus/{controller}/{action}"));
         }
     }
 }
