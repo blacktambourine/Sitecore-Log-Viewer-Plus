@@ -41,10 +41,15 @@ baseModule.controller('BaseCtrl', ['$scope', '$q', '$timeout', '$sce', function 
     }
 
     //Are there server errors on this page
-    $scope.hasPageErrors = false;
-    $scope.$watch('pageErrors', function () {
-        $scope.hasPageErrors = !jQuery.isEmptyObject($scope.pageErrors);
-    }, true);
+    $scope.hasPageErrors = function () {
+        return !jQuery.isEmptyObject($scope.pageErrors);
+    };
+
+    //removed watch as this is a performance hit
+    //$scope.$watch('pageErrors', function ()
+    //{
+    //    $scope.hasPageErrors = !jQuery.isEmptyObject($scope.pageErrors);
+    //}, true);
 
     //#endregion
 
@@ -86,7 +91,7 @@ baseModule.controller('BaseCtrl', ['$scope', '$q', '$timeout', '$sce', function 
     $scope.initPager = function () {
         $scope.pager.totalItems = 1000; //this needs a dummy default value before the first service call
         $scope.pager.currentPage = 1;
-        $scope.pager.pageSize = 10;
+        $scope.pager.pageSize = 5;
         $scope.pager.itemCounter = 1;
         $scope.pager.numPages = 5;
 
