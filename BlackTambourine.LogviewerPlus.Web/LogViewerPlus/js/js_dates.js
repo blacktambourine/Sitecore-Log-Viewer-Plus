@@ -93,10 +93,10 @@
     //#endregion Dates
 
     //#region Datapicker defaults
-    //From Date has midnight as default from time
+    //From Date has one hour ago as default from time
     jsDates.getDefaultDatepickerFromDate = function () {
-        var dateToday = new Date();
-        var d = new Date(dateToday.getFullYear(), dateToday.getMonth(), dateToday.getDate(), 0, 0, 0, 0);
+        var dateToday = new Date();       
+        var d = new Date(dateToday.getFullYear(), dateToday.getMonth(), dateToday.getDate(), dateToday.getHours()-1, dateToday.getMinutes(), 0, 0);
         return d;
     };
 
